@@ -1,5 +1,6 @@
 package com.bank.ui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import com.bank.entities.User;
 import com.bank.service.UserService;
@@ -40,7 +43,8 @@ public class Register extends JFrame {
 	private JLabel label4;
 	private JLabel label5;
 	private JLabel label6;
-	private JComboBox userType = new JComboBox<>();;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
+	private JComboBox<String> userType = new JComboBox<String>();		//注册时的选项框
+	private JPanel stylePanel;
 	
 	
 	
@@ -61,6 +65,13 @@ public class Register extends JFrame {
 		getLayeredPane().add(backgroundCon, new Integer(Integer.MIN_VALUE));
 		JPanel jp=(JPanel)getContentPane(); 
 		jp.setOpaque(false);//设置透明
+		
+		//设置样式面板
+		stylePanel = new JPanel();
+		stylePanel.setBounds(163, 55, 350, 200);
+		stylePanel.setOpaque(false);
+		stylePanel.setBorder(new TitledBorder(new LineBorder(new Color(255, 255, 0), 2, true), "\u6CE8\u518C\u8D26\u53F7", TitledBorder.RIGHT, TitledBorder.TOP, null, Color.ORANGE));
+		getLayeredPane().add(stylePanel);
 		
 		//设置输入框位置
 		mainPanel = new JPanel();
@@ -111,10 +122,11 @@ public class Register extends JFrame {
 		addrTxt.setBorder(null);
 		mainPanel.add(addrTxt);
 		
-		//设置Combox的位置和属性
-		userType.setModel(new DefaultComboBoxModel(new String[] {"管理员用户", "银行职员", "客户"}));
-		userType.setBounds(340, 250, 99, 21);
+		//设置ComboBox的位置和属性
+		userType.setModel(new DefaultComboBoxModel<String>(new String[] {"管理员用户", "银行职员", "客户"}));
+		userType.setBounds(350, 265, 99, 21);
 		mainPanel.add(userType);
+		
 		//设置标签位置
 		label1 = new JLabel("用户ID");
 		label1.setBounds(180, 70, 200, 20);
