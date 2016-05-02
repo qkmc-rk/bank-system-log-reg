@@ -6,7 +6,7 @@ import com.bank.entities.User;
 import com.bank.service.UserService;
 
 public class UserServiceImpl implements UserService {
-	UserDAOImpl userdao = new UserDAOImpl();
+		UserDAO userdao = new UserDAOImpl();
 	@Override
 	public boolean regUser(User user) {
 		boolean flag = userdao.addUser(user);
