@@ -136,7 +136,7 @@ public class Login extends JFrame {
 						JOptionPane.showMessageDialog(null, "µÇÂ½³É¹¦");
 						//µÇÂ½³É¹¦
 					}else{
-						JOptionPane.showMessageDialog(null, "µÇÂ½Ê§°Ü");
+						JOptionPane.showMessageDialog(null, "µÇÂ½Ê§°Ü","µÇÂ½Òì³£", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				

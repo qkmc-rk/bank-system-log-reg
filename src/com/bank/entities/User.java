@@ -8,7 +8,14 @@ public class User {
 	private String oldPwd;					/*eg:ruankun520~*/
 	private String phone;					/*eg:18227590043*/
 	private String addr;						/*eg：四川农业大学*/
+	private int userType;			/*0-系统管理员 1--银行职员 2--普通用户*/
 	
+	public int getUserType() {
+		return userType;
+	}
+	public void setUserType(int userType) {
+		this.userType = userType;
+	}
 	/*constructors
 	 * */
 	public User(String  userId, String personId, String userName, String userPwd,

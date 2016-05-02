@@ -5,8 +5,10 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -38,6 +40,7 @@ public class Register extends JFrame {
 	private JLabel label4;
 	private JLabel label5;
 	private JLabel label6;
+	private JComboBox userType = new JComboBox<>();;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
 	
 	
 	
@@ -108,6 +111,10 @@ public class Register extends JFrame {
 		addrTxt.setBorder(null);
 		mainPanel.add(addrTxt);
 		
+		//设置Combox的位置和属性
+		userType.setModel(new DefaultComboBoxModel(new String[] {"管理员用户", "银行职员", "客户"}));
+		userType.setBounds(340, 250, 99, 21);
+		mainPanel.add(userType);
 		//设置标签位置
 		label1 = new JLabel("用户ID");
 		label1.setBounds(180, 70, 200, 20);
@@ -168,6 +175,7 @@ public class Register extends JFrame {
 				user.setUserPwd(String.valueOf(userPwdTxt.getPassword()));				/*   char* to String   */
 				user.setPhone(phoneTxt.getText());
 				user.setAddr(addrTxt.getText());
+				user.setUserType(userType.getSelectedIndex());
 				UserService service = new UserServiceImpl();
 				Boolean flag = false;
 				flag = service.regUser(user);

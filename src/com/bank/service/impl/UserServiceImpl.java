@@ -3,12 +3,18 @@ package com.bank.service.impl;
 import com.bank.dao.UserDAO;
 import com.bank.dao.impl.UserDAOImpl;
 import com.bank.entities.User;
+import com.bank.service.Rules;
 import com.bank.service.UserService;
 
 public class UserServiceImpl implements UserService {
 		UserDAO userdao = new UserDAOImpl();
 	@Override
 	public boolean regUser(User user) {
+		try {
+			Rules.validataUser(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		boolean flag = userdao.addUser(user);
 		return flag;
 	}
