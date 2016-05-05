@@ -8,6 +8,7 @@ import com.bank.service.UserService;
 
 public class UserServiceImpl implements UserService {
 		UserDAO userdao = new UserDAOImpl();
+		boolean flag  = false;
 	@Override
 	public boolean regUser(User user) {
 		try {

@@ -26,10 +26,18 @@ public class UserDAOImpl implements UserDAO{
 			pstmt.setString(5, user.getPhone());
 			pstmt.setString(6, user.getAddr());
 			pstmt.setInt(7, user.getUserType());
+			
+			conn.setAutoCommit(false);  //开启事务（关闭自动提交）
 			pstmt.executeUpdate();
+			conn.commit(); 			//提交事务
 			conn.close();
 			return true;
 		} catch (SQLException e) {
+			try {
+				conn.rollback();   //事务异常回滚
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			System.out.println("插入失败，请检查sql语句和对象");
 			e.printStackTrace();
 		}finally{
