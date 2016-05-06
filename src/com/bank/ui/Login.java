@@ -14,8 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.bank.entities.User;
 import com.bank.service.UserService;
 import com.bank.service.impl.UserServiceImpl;
+import com.bank.utils.Container;
 
 public class Login extends JFrame {
 	/**
@@ -131,8 +133,12 @@ public class Login extends JFrame {
 				if(userIdField.getText() != null && String.valueOf(userPwdField.getPassword()) != null){
 					boolean flag = service.logUser(userIdField.getText(), String.valueOf(userPwdField.getPassword()));
 					if(flag){
-						JOptionPane.showMessageDialog(null, "登陆成功");
-						//登陆成功
+						User user = new User();
+						user.setUserId(userIdField.getText());
+						Container.register("user", user);//注册一下user，方便后面使用
+						dispose();
+						new InnerSystem().setVisible(true);
+						
 					}else{
 						JOptionPane.showMessageDialog(null, "登陆失败","登陆异常", JOptionPane.ERROR_MESSAGE);
 					}

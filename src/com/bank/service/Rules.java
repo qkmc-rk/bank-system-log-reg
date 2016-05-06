@@ -2,9 +2,27 @@ package com.bank.service;
 
 import javax.swing.JOptionPane;
 
+import com.bank.entities.Account;
 import com.bank.entities.User;
 
 public class Rules {
+	
+	/*校验Account是否符合规则*/
+	public static void validataAccount(Account acct) throws Exception{
+		//用户卡号必须是数组，并且必须大于9位
+		String acctId = acct.getAcctId();
+		if(acctId.length()<9) 
+			throw new Exception("卡号务必大于9位");
+		for (int i = 0; i < acctId.length(); i++) {
+			if(!Character.isDigit(acctId.charAt(i))){//判断如果不是纯数字
+				JOptionPane.showMessageDialog(null, "卡号必须全部为数字");
+				throw new Exception("卡号不符合规则");
+			}
+		}
+		//存储时间不得超过100年
+		int saveYear = acct.getSaveYear();
+		if(saveYear>100) throw new Exception("存储年限不能超过100年");
+	}
 	public static void validataUser(User user)throws Exception{
 		//userId必须全部是数字
 		String userId=user.getUserId();
