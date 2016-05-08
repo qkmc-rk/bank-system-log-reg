@@ -54,15 +54,14 @@ public class UserDAOImpl implements UserDAO{
 	@Override
 	public User qurryUser(String userId, String pwd) {
 		Connection conn = ConnectToJDBC.getConnection();
-		User user = null;
+		User user = new User();
 		String sql = "select * from t_user where userId=? and userPwd=?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userId);
 			pstmt.setString(2, pwd);
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()){
-				user = new User();
+			while(rs.next()){
 				user.setUserId(rs.getString(2));
 				user.setPersonId(rs.getString(3));
 				user.setUserName(rs.getString(4));
@@ -110,6 +109,38 @@ public class UserDAOImpl implements UserDAO{
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public User findUserByUserId(String userId) {
+		Connection conn = ConnectToJDBC.getConnection();
+		User user = null;
+		String sql = "select * from t_user where userId=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()){
+				user = new User();
+				user.setUserId(rs.getString(2));
+				user.setPersonId(rs.getString(3));
+				user.setUserName(rs.getString(4));
+				user.setUserPwd(rs.getString(5));
+				user.setPhone(rs.getString(7));
+				user.setAddr(rs.getString(8));
+				user.setUserType(rs.getInt(9));
+				if(rs.getString(6) != null)user.setOldPwd(rs.getString(6));
+			}
+		} catch (SQLException e) {
+			System.out.println("查询失败，请检查sql语句和对象");
+			e.printStackTrace();
+		}
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return user;
 	}
 
 }

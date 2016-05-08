@@ -85,8 +85,9 @@ public class AccountDAOImpl implements AccountDAO{
 	@Override
 	public List<Account> findAllByUserId(String userId, Connection conn) throws Exception {
 		List<Account> accts = new ArrayList<>();
-		String sql = "select * from t_account";
+		String sql = "select * from t_account where userId=?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, userId);
 		ResultSet rs = pstmt.executeQuery();
 		while(rs.next()){
 			Account acct = new Account();
@@ -118,12 +119,13 @@ public class AccountDAOImpl implements AccountDAO{
 
 	@Override
 	public Account findByAccountId(String acctId, Connection conn) throws Exception {
-		Account acct = new Account();
+		Account acct = null;
 		String sql = "select * from t_account where acctId=?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, acctId);
 		ResultSet rs = pstmt.executeQuery();
 		if(rs.next()){
+			acct = new Account();
 			acct.setAcctId(rs.getString(2));
 			acct.setUserId(rs.getString(3));
 			acct.setAccType(rs.getInt(4));

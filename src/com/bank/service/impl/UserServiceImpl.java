@@ -16,6 +16,11 @@ public class UserServiceImpl implements UserService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		/*是否有用户已经存在*/
+		User u = userdao.findUserByUserId(user.getUserId());
+		if(u != null)
+			if( u.getUserId().equals(user.getUserId()))
+					return false;
 		boolean flag = userdao.addUser(user);
 		return flag;
 	}
@@ -42,6 +47,12 @@ public class UserServiceImpl implements UserService {
 
 	public void setUserdao(UserDAOImpl userdao) {
 		this.userdao = userdao;
+	}
+	@Override
+	public User findUserByUserId(String userId) {
+		User user = new User();
+		user = userdao.findUserByUserId(userId);
+		return user;
 	}
 
 }

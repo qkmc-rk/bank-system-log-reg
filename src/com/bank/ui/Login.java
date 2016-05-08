@@ -36,6 +36,8 @@ public class Login extends JFrame {
 	private JLabel label2;
 	private JLabel label;				/*标题*/
 	
+	UserService userService = new UserServiceImpl();
+	
 	public Login(){
 		//设置框架
 		setTitle("欢迎登陆");
@@ -134,7 +136,7 @@ public class Login extends JFrame {
 					boolean flag = service.logUser(userIdField.getText(), String.valueOf(userPwdField.getPassword()));
 					if(flag){
 						User user = new User();
-						user.setUserId(userIdField.getText());
+						user = userService.findUserByUserId(userIdField.getText());//未作判断
 						Container.register("user", user);//注册一下user，方便后面使用
 						dispose();
 						new InnerSystem().setVisible(true);

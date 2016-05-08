@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -41,12 +42,12 @@ public class CardPanel extends JPanel {
 		cardsComBox.setBounds(220, 128, 230, 22);
 		add(cardsComBox);
 		
-		JButton okBtn = new JButton("\u786E \u5B9A");
-		okBtn.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
-		okBtn.setBounds(187, 239, 89, 23);
+		JButton okBtn = new JButton();
+		okBtn.setBounds(187, 239,120, 36);
+		okBtn.setIcon(new ImageIcon("images/login.png"));
 		add(okBtn);
 		
-		JButton newHuBtn = new JButton("\u5F00 \u6237");
+		JButton newHuBtn = new JButton();
 		newHuBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JPanel mainPanel = (JPanel)Container.getObject("mainPanel");
@@ -54,8 +55,8 @@ public class CardPanel extends JPanel {
 				card.show(mainPanel, "cardRegistPanel");
 			}
 		});
-		newHuBtn.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 13));
-		newHuBtn.setBounds(335, 239, 89, 23);
+		newHuBtn.setBounds(335, 239, 120, 36);
+		newHuBtn.setIcon(new ImageIcon("images/login.png"));
 		add(newHuBtn);
 		
 		
@@ -64,10 +65,10 @@ public class CardPanel extends JPanel {
 		User user = (User)Container.getObject("user");
 		wecLabel.setText("»¶Ó­Äã£¬"+user.getUserId());
 		/*Ë¢ÐÂ¿¨Æ¬ÊýÁ¿*/
-		cardsComBox.removeAllItems();
 		String userId = user.getUserId();
 		try {
 			List<Account> accts = accountService.findAllByUserId(userId);
+			cardsComBox.removeAllItems();
 			if(accts != null && accts.size()>0){
 				for(Account acct:accts){
 					cardsComBox.addItem(acct.getAcctId());

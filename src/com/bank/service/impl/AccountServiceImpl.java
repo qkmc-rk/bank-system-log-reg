@@ -19,8 +19,9 @@ public class AccountServiceImpl implements AccountService{
 		Rules.validataAccount(a);
 		/*判断是否存在此卡号，存在则抛出异常*/
 		Account acct = findByAccountId(a.getAcctId());
-		if(acct.getAcctId().equals(a.getAcctId())) throw new Exception("此卡号已经存在，请不要重复添加！");
-		
+		if(acct != null)
+			if(acct.getAcctId().equals(a.getAcctId())) 
+				throw new Exception("此卡号已经存在，请不要重复添加！");
 		Connection conn = ConnectToJDBC.getConnection();
 		conn.setAutoCommit(false);
 		accountdao.add(a, conn);

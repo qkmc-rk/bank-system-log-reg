@@ -192,7 +192,7 @@ public class Register extends JFrame {
 				Boolean flag = false;
 				flag = service.regUser(user);
 				if(flag) JOptionPane.showMessageDialog(null, "×¢²á³É¹¦£¡");
-				else JOptionPane.showMessageDialog(null, "×¢²áÊ§°Ü£¡");
+				else JOptionPane.showMessageDialog(null, "×¢²áÊ§°Ü,Çë¼ì²é£¡");
 			}
 		});
 	}

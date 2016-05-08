@@ -16,6 +16,8 @@ public interface UserService {
 	 * 
 	 * */
 	public boolean updatePwd(User user,String newPwd);
+	
+	public User findUserByUserId(String userId);
 
 
 }
