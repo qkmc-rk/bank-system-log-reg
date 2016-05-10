@@ -9,7 +9,7 @@ public class Rules {
 	
 	/*校验Account是否符合规则*/
 	public static void validataAccount(Account acct) throws Exception{
-		//用户卡号必须是数组，并且必须大于9位
+		//用户卡号必须是数字，并且必须大于9位
 		String acctId = acct.getAcctId();
 		if(acctId.length()<9) 
 			throw new Exception("卡号务必大于9位");

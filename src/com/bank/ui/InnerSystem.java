@@ -54,8 +54,4 @@ public class InnerSystem extends JFrame {
 			Container.register("cardRegistPanel",cardRegistPanel);
 		
 	}
-	
-	public static void main(String[] agrs){
-		new InnerSystem().setVisible(true);
-	}
 }
