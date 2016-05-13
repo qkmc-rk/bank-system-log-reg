@@ -23,13 +23,14 @@ public class Rules {
 		int saveYear = acct.getSaveYear();
 		if(saveYear>100) throw new Exception("存储年限不能超过100年");
 	}
+	/*validate user*/
 	public static void validataUser(User user)throws Exception{
 		//userId必须全部是数字
 		String userId=user.getUserId();
 		for(int i=0;i<userId.length();i++){
 			if(!Character.isDigit(userId.charAt(i))){//判断如果不是纯数字
 				JOptionPane.showMessageDialog(null, "userId必须全部为数字");
-				throw new Exception("密码不符合规则");
+				throw new Exception("用户ID不符合规则");
 			}
 		}
 		//密码必须大于8位小于16位

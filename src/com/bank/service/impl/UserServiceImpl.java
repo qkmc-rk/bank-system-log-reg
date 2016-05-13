@@ -8,20 +8,21 @@ import com.bank.service.UserService;
 
 public class UserServiceImpl implements UserService {
 		UserDAO userdao = new UserDAOImpl();
-		boolean flag  = false;
 	@Override
 	public boolean regUser(User user) {
+		boolean flag  = false;
 		try {
 			Rules.validataUser(user);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;  			/*如果抛出异常则说明注册应该失败，返回false*/
 		}
 		/*是否有用户已经存在*/
 		User u = userdao.findUserByUserId(user.getUserId());
 		if(u != null)
 			if( u.getUserId().equals(user.getUserId()))
 					return false;
-		boolean flag = userdao.addUser(user);
+		flag = userdao.addUser(user);
 		return flag;
 	}
 	@Override
