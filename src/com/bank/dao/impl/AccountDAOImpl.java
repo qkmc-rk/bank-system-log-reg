@@ -53,8 +53,8 @@ public class AccountDAOImpl implements AccountDAO{
 	@Override
 	public void update(Account a, Connection conn) throws Exception {
 		String sql = "update t_account set acctId=?,userId=?,accType=?,isLoss=?,saveMoney=?,saveType=?,saveYear=?,saveDate=?,loanMoney=?,"
-				+ "loanType=?,loanYear=?,loanDate=?,warrant01=?,warrant02=?,loanHouse=?,creditMoney=?,sonsumeMoney=?,creditPwd=?,US_dollar=?,HK_dollar=?,"
-				+ "JP_dollar=?";
+				+ "loanType=?,loanYear=?,loanDate=?,warrant01=?,warrant02=?,loanHouse=?,creditMoney=?,consumeMoney=?,creditPwd=?,US_dollar=?,HK_dollar=?,"
+				+ "JP_dollar=?" +"where acctId="+a.getAcctId();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, a.getAcctId());
 		pstmt.setString(2, a.getUserId());

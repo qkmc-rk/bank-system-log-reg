@@ -15,4 +15,6 @@ public interface AccountService {
 	public Account findByAccountId(String acctId) throws Exception;
 	
 	public List<Account> findAllByUserId(String userId)throws Exception;
+	
+	public void transferm(Account acct, Account opAcct)throws Exception;
 }

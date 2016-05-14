@@ -23,7 +23,7 @@ public interface UserDAO {
 	 * @return 是否成功
 	 * */
 	public boolean updateUser(User user,String newPwd);
-	/*
+	/*	
 	 * 通过查找用户名来查找用户
 	 * @user user对象
 	 * @userId  用户Id

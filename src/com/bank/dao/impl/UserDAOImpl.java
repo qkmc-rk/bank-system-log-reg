@@ -54,7 +54,7 @@ public class UserDAOImpl implements UserDAO{
 	@Override
 	public User qurryUser(String userId, String pwd) {
 		Connection conn = ConnectToJDBC.getConnection();
-		User user = new User();
+		User user = null;
 		String sql = "select * from t_user where userId=? and userPwd=?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -62,6 +62,7 @@ public class UserDAOImpl implements UserDAO{
 			pstmt.setString(2, pwd);
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()){
+				user = new User();
 				user.setUserId(rs.getString(2));
 				user.setPersonId(rs.getString(3));
 				user.setUserName(rs.getString(4));

@@ -48,10 +48,15 @@ public class InnerSystem extends JFrame {
 			mainPanel.add(cardRegistPanel,"cardRegistPanel");
 			cardRegistPanel.setOpaque(false);
 			
+			JPanel bankPanel = new BankPanel();	/*银行业务面板，重要面板*/
+			bankPanel.setOpaque(false);
+			mainPanel.add(bankPanel,"bankPanel");
+			
 			/*在容器中注册面板*/
 			Container.register("mainPanel",mainPanel);
 			Container.register("cardPanel",cardPanel);
 			Container.register("cardRegistPanel",cardRegistPanel);
+			Container.register("bankPanel", bankPanel);
 		
 	}
 }

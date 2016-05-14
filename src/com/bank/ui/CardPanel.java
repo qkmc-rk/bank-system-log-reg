@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.bank.entities.Account;
@@ -42,12 +43,28 @@ public class CardPanel extends JPanel {
 		cardsComBox.setBounds(220, 128, 230, 22);
 		add(cardsComBox);
 		
-		JButton okBtn = new JButton();
+		JButton okBtn = new JButton("确定");
+		okBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String acctId = (String) cardsComBox.getSelectedItem();
+				try {
+					/*跳转到BankPanel之前，先获取到下拉框中的acctId，然后再找到对应acct并注册为全局对象*/
+					Account acct = accountService.findByAccountId(acctId);
+					Container.register("acct", acct);
+					/*执行跳转*/
+					JPanel mainPanel = (JPanel)Container.getObject("mainPanel");
+					CardLayout card = (CardLayout) mainPanel.getLayout();
+					card.show(mainPanel, "bankPanel");
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "发生内部错误，请检查["+e.getMessage()+"]");
+					e.printStackTrace();
+				}
+			}
+		});
 		okBtn.setBounds(187, 239,120, 36);
-		okBtn.setIcon(new ImageIcon("images/login.png"));
 		add(okBtn);
 		
-		JButton newHuBtn = new JButton();
+		JButton newHuBtn = new JButton("开户");
 		newHuBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JPanel mainPanel = (JPanel)Container.getObject("mainPanel");
@@ -56,7 +73,6 @@ public class CardPanel extends JPanel {
 			}
 		});
 		newHuBtn.setBounds(335, 239, 120, 36);
-		newHuBtn.setIcon(new ImageIcon("images/login.png"));
 		add(newHuBtn);
 		
 		
