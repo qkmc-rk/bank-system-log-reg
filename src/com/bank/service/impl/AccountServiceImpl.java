@@ -70,6 +70,7 @@ public class AccountServiceImpl implements AccountService{
 	@Override
 	public void transferm(Account acct, Account opAcct)throws Exception {
 		Connection conn = ConnectToJDBC.getConnection();
+		/*¿ªÆôÊÂÎñ*/
 		conn.setAutoCommit(false);
 		accountdao.update(acct,conn);
 		accountdao.update(opAcct,conn);

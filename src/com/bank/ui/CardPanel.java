@@ -46,7 +46,11 @@ public class CardPanel extends JPanel {
 		JButton okBtn = new JButton("确定");
 		okBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				//获取accid之前先进行字符串截取
 				String acctId = (String) cardsComBox.getSelectedItem();
+				int index = acctId.indexOf("-");
+				acctId = acctId.substring(0, index);
+				/*---------------------------------*/
 				try {
 					/*跳转到BankPanel之前，先获取到下拉框中的acctId，然后再找到对应acct并注册为全局对象*/
 					Account acct = accountService.findByAccountId(acctId);
@@ -87,7 +91,14 @@ public class CardPanel extends JPanel {
 			cardsComBox.removeAllItems();
 			if(accts != null && accts.size()>0){
 				for(Account acct:accts){
-					cardsComBox.addItem(acct.getAcctId());
+					if(acct.getAccType() == 0)
+						cardsComBox.addItem(acct.getAcctId()+"-一卡通");
+					if(acct.getAccType() == 1)
+						cardsComBox.addItem(acct.getAcctId()+"-贷款卡");
+					if(acct.getAccType() == 2)
+						cardsComBox.addItem(acct.getAcctId()+"-外汇卡");
+					if(acct.getAccType() == 3)
+						cardsComBox.addItem(acct.getAcctId()+"-信用卡");
 				}
 			}
 		} catch (Exception e) {

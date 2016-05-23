@@ -139,27 +139,37 @@ public class MoneyPanel extends JPanel {
 				/*首先获取Container中的acct*/
 				Account acct = (Account)Container.getObject("acct");
 				User user = (User)Container.getObject("user");
-				if(acct.getSaveMoney() <Double.parseDouble(MoneyField.getText())){
-					JOptionPane.showMessageDialog(null, "账户余额不足");
+				
+				/*判断是否是定期*/
+				if(acct.getSaveYear()  != -1 && (new Date().getTime()-acct.getSaveDate().getTime())/(1000*60*60*24) < acct.getSaveYear()*365){
+						JOptionPane.showMessageDialog(null, "定期存款时间未到，无法取款");
 				}else{
-					/*更新值*/
-					acct.setSaveMoney(acct.getSaveMoney()-Double.parseDouble(MoneyField.getText()));
-					/*对数据库进行更新*/
-					try {
-						accountService.updateAccount(acct);
-						TransInfo info = new TransInfo();
-						info.setUserId(user.getUserId());
-						info.setAcctNo(acct.getAcctId());
-						info.setMoney(Double.parseDouble(MoneyField.getText()));
-						info.setTransType("pop");
-						info.setTransDate(new Date());
-						transService.add(info);
-						refresh();
-					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(null, "取款失败，原因["+e1.getMessage()+"]");
-						e1.printStackTrace();
+					/*余额是否足够*/
+					if(acct.getSaveMoney() <Double.parseDouble(MoneyField.getText())){
+						JOptionPane.showMessageDialog(null, "账户余额不足");
+					}
+					//System.out.println((new Date().getTime()-acct.getSaveDate().getTime())/(1000*60*60*24));
+					else{
+						/*更新值*/
+						acct.setSaveMoney(acct.getSaveMoney()-Double.parseDouble(MoneyField.getText()));
+						/*对数据库进行更新*/
+						try {
+							accountService.updateAccount(acct);
+							TransInfo info = new TransInfo();
+							info.setUserId(user.getUserId());
+							info.setAcctNo(acct.getAcctId());
+							info.setMoney(Double.parseDouble(MoneyField.getText()));
+							info.setTransType("pop");
+							info.setTransDate(new Date());
+							transService.add(info);
+							refresh();
+						} catch (Exception e1) {
+							JOptionPane.showMessageDialog(null, "取款失败，原因["+e1.getMessage()+"]");
+							e1.printStackTrace();
+						}
 					}
 				}
+				
 				
 			}
 		});
@@ -172,10 +182,12 @@ public class MoneyPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				/*转账*/
 				try {
+					/*获取对方的Account*/
 					Account opAccount = accountService.findByAccountId(AcctIdField.getText());
 					if(opAccount == null){
 						JOptionPane.showMessageDialog(null, "该账号不存在");
 					}else{
+						/*获取对方User*/
 						User opUser = userService.findUserByUserId(opAccount.getUserId());
 						if(UserField.getText().equals(opUser.getUserName())){
 							/********/
@@ -189,6 +201,7 @@ public class MoneyPanel extends JPanel {
 								opAccount.setSaveMoney(opAccount.getSaveMoney()+Double.parseDouble(MoneyField.getText()));
 								/*对数据库进行更新*/
 								try {
+									/*进行数据库操作*/
 									/*转账防止发生错误，使用同一事物进行，出错则回滚*/
 									accountService.transferm(acct, opAccount);
 									TransInfo info = new TransInfo();
@@ -239,8 +252,8 @@ public class MoneyPanel extends JPanel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		SavedField.setText(acct.getSaveMoney()+"");
+		
 		/*对文本域进行清空操作*/
 		MoneyField.setText("");
 		AcctIdField.setText("");

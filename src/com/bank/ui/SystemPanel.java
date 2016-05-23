@@ -19,7 +19,8 @@ package com.bank.ui;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -78,6 +79,10 @@ public class SystemPanel extends JPanel {
 								Rules.validataUserPwd(new User(), user.getUserId(), new String(newPsd1.getPassword()));
 								userService.updatePwd(user, newPwd);
 								JOptionPane.showMessageDialog(null, "密码修改成功！");
+								/*修改密码成功后需要清空面板*/
+								oldPsw.setText("");
+								newPsd1.setText("");
+								newPsd2.setText("");
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}
@@ -92,6 +97,36 @@ public class SystemPanel extends JPanel {
 					JOptionPane.showMessageDialog(null, "原密码输入错误，请检查！");
 				}
 				
+			}
+		});
+		/*增加键盘监听事件，回车可确定*/
+		chgBtn.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyChar() == KeyEvent.VK_ENTER){
+					User user = (User)Container.getObject("user");
+					if(user.getUserPwd().equals(new String(oldPsw.getPassword()))){
+						if(new String(newPsd1.getPassword()).equals(new String(newPsd2.getPassword()))){
+							if(new String(newPsd1.getPassword()).equals(new String(newPsd2.getPassword())) && !(new String(newPsd1.getPassword()).equals(new String(oldPsw.getPassword())))){
+								String newPwd = new String(newPsd1.getPassword());
+								try {
+									Rules.validataUserPwd(new User(), user.getUserId(), new String(newPsd1.getPassword()));
+									userService.updatePwd(user, newPwd);
+									JOptionPane.showMessageDialog(null, "密码修改成功！");
+								} catch (Exception e1) {
+									e1.printStackTrace();
+								}
+								
+							}else{
+								JOptionPane.showMessageDialog(null, "修改密码不能与原密码相同！");
+							}
+						}else{
+							JOptionPane.showMessageDialog(null, "两次输入密码不一致！");
+						}
+					}else{
+						JOptionPane.showMessageDialog(null, "原密码输入错误，请检查！");
+					}
+				}
 			}
 		});
 		chgBtn.setFont(new Font("微软雅黑", Font.PLAIN, 13));

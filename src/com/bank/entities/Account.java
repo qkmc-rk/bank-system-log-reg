@@ -163,7 +163,7 @@ public class Account {
 	public String getLoanHouse() {
 		return loanHouse;
 	}
-	public void setLoanHouse(String loanHouse) {
+	public void setLoanHouse(String  loanHouse) {
 		this.loanHouse = loanHouse;
 	}
 	public double getCreditMoney() {

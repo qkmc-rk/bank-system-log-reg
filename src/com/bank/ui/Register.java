@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -176,6 +178,14 @@ public class Register extends JFrame {
 				dispose();
 			}
 		});
+		cancelBut.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyChar() == KeyEvent.VK_ENTER){
+					dispose();
+				}
+			}
+		});
 		regBut.addActionListener(new ActionListener() {
 			
 			@Override
@@ -193,6 +203,26 @@ public class Register extends JFrame {
 				flag = service.regUser(user);
 				if(flag) JOptionPane.showMessageDialog(null, "×¢²á³É¹¦£¡");
 				else JOptionPane.showMessageDialog(null, "×¢²áÊ§°Ü,Çë¼ì²é£¡");
+			}
+		});
+		regBut.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyChar() == KeyEvent.VK_ENTER){
+					User user = new User();
+					user.setUserId(userIdTxt.getText());
+					user.setPersonId(personIdTxt.getText());
+					user.setUserName(userNameTxt.getText());
+					user.setUserPwd(String.valueOf(userPwdTxt.getPassword()));				/*   char* to String   */
+					user.setPhone(phoneTxt.getText());
+					user.setAddr(addrTxt.getText());
+					user.setUserType(userType.getSelectedIndex());
+					UserService service = new UserServiceImpl();
+					Boolean flag = false;
+					flag = service.regUser(user);
+					if(flag) JOptionPane.showMessageDialog(null, "×¢²á³É¹¦£¡");
+					else JOptionPane.showMessageDialog(null, "×¢²áÊ§°Ü,Çë¼ì²é£¡");
+				}
 			}
 		});
 	}

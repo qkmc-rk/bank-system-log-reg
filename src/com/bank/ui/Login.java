@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -122,9 +124,25 @@ public class Login extends JFrame {
 				dispose();
 			}
 		});
+		exitBut.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyChar() == KeyEvent.VK_ENTER){
+					dispose();
+				}
+			}
+		});
 		RegBut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new Register().setVisible(true);
+			}
+		});
+		RegBut.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyChar() == KeyEvent.VK_ENTER){
+					new Register().setVisible(true);
+				}
 			}
 		});
 		logBut.addActionListener(new ActionListener() {
@@ -146,6 +164,27 @@ public class Login extends JFrame {
 					}
 				}
 				
+			}
+		});
+		logBut.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyChar() == KeyEvent.VK_ENTER){
+					UserService service = new UserServiceImpl();
+					if(userIdField.getText() != null && String.valueOf(userPwdField.getPassword()) != null){
+						boolean flag = service.logUser(userIdField.getText(), String.valueOf(userPwdField.getPassword()));
+						if(flag){
+							User user = new User();
+							user = userService.findUserByUserId(userIdField.getText());//未作判断
+							Container.register("user", user);//注册一下user，方便后面使用
+							dispose();
+							new InnerSystem().setVisible(true);
+							
+						}else{
+							JOptionPane.showMessageDialog(null, "登陆失败","登陆异常", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
 			}
 		});
 	}

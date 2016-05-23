@@ -83,6 +83,8 @@ public class CardRegistPanel extends JPanel {
 		saveYearField = new JTextField();
 		saveYearField.setColumns(10);
 		saveYearField.setBounds(262, 59, 100, 20);
+		saveYearField.setText("-1");//活期的话存款期限为-1表示无意义
+		saveYearField.setEditable(false);
 		innerPanel.add(saveYearField);
 		
 		JButton button = new JButton("\u5F00 \u6237");
@@ -96,6 +98,10 @@ public class CardRegistPanel extends JPanel {
 				acct.setSaveMoney(Double.parseDouble(saveMnyField.getText()));
 				acct.setSaveType(saveTypeCob.getSelectedIndex());
 				acct.setSaveYear(Integer.parseInt(saveYearField.getText()));
+				if(Integer.parseInt(saveYearField.getText()) <= 1 && saveTypeCob.getSelectedIndex() == 1){
+					acct.setSaveYear(1);
+					JOptionPane.showMessageDialog(null, "存储年限小于1，默认初始化为1年！");
+				}
 				try {
 					acctService.register(acct);
 					JOptionPane.showMessageDialog(null, "开户成功！");
@@ -108,6 +114,20 @@ public class CardRegistPanel extends JPanel {
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "注册失败，检查【"+e.getMessage()+"】");
 					e.printStackTrace();
+				}
+			}
+		});
+		saveTypeCob.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(saveTypeCob.getSelectedIndex() ==0){
+					saveYearField.setText("-1");//活期的话存款期限为-1表示无意义
+					saveYearField.setEditable(false);
+				}
+				if(saveTypeCob.getSelectedIndex() ==1){
+					saveYearField.setText("");//活期的话存款期限为-1表示无意义
+					saveYearField.setEditable(true);
 				}
 			}
 		});

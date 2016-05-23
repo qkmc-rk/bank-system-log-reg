@@ -54,9 +54,11 @@ public class BankPanel extends JPanel {
 	public BankPanel() {
 		MoneyPanel moneyPanel = new MoneyPanel();
 		SystemPanel systemPanel = new SystemPanel();
+		LoanPanel loanPanel = new LoanPanel();
 		
 		datas.put("储蓄业务", moneyPanel);
 		datas.put("系统管理", systemPanel);
+		datas.put("贷款业务",loanPanel );
 		
 		setSize(600, 400);
 		setLayout(null);
