@@ -114,96 +114,6 @@ public class LoanPanel extends JPanel {
 		StuBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				/*学生贷款类型*/
-				/*首先获取个人贷款的User和Accout*/
-				Account acct = (Account)Container.getObject("acct");
-				User user =(User)Container.getObject("user");
-				/*首先判断是不是贷款卡*/
-				if(acct.getAccType() != 1){
-					JOptionPane.showMessageDialog(null, "不是贷款卡，无法办理贷款业务！");
-					try {
-						throw new Exception("此卡不是贷款卡");
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}else if(acct.getLoanMoney() != 0){
-					JOptionPane.showMessageDialog(null, "此卡已贷款，无法继续办理贷款业务！");
-					try {
-						throw new Exception("此卡已贷款");
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}else{
-					/*处理贷款类型时间和额度*/
-					int  LoanType = LoanTypeComboBox.getSelectedIndex();
-					int LoanYear = Integer.parseInt(LoanYearTextField.getText());
-					double LoanMoney = Double.parseDouble(LoanMoneyTextField.getText());
-					acct.setLoanType(LoanType);
-					if(LoanType == 0 && Integer.parseInt(LoanYearTextField.getText())>0&& Integer.parseInt(LoanYearTextField.getText())<365)
-						acct.setLoanYear(LoanYear);
-					else if(LoanType == 1 && Integer.parseInt(LoanYearTextField.getText())>=1&& Integer.parseInt(LoanYearTextField.getText())<=3)
-						acct.setLoanYear(LoanYear);
-					else if(LoanType == 2 && Integer.parseInt(LoanYearTextField.getText())>3 && Integer.parseInt(LoanYearTextField.getText())<=8)
-						acct.setLoanYear(LoanYear);
-					else{
-						JOptionPane.showMessageDialog(null, "贷款年限和类型可能有误，请仔细阅读贷款规则");
-						try {
-							throw new Exception("发生异常");
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					acct.setLoanMoney(LoanMoney);
-					acct.setLoanHouse(LoanHousetextField.getText());
-					if(Integer.parseInt(LoanMoneyTextField.getText()) > Integer.parseInt(LoanHousetextField.getText())*0.8 ||Integer.parseInt(LoanMoneyTextField.getText()) < 0){
-						JOptionPane.showMessageDialog(null, "贷款额度超出或者低于0，请检查贷款金额");
-						try {
-							throw new Exception("贷款额度过大");
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					acct.setLoanDate(new Date());
-					/*更新数据库*/
-					try {
-						accountService.updateAccount(acct);
-						JOptionPane.showMessageDialog(null, "贷款完成！请稍后查看贷款余额!");
-					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null,"无法完成贷款请求，错误["+e.getMessage()+"]");
-						e.printStackTrace();
-					}
-				}
-				
-				
-			}
-		});
-		StuBtn.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-		StuBtn.setBounds(214, 23, 113, 30);
-		Stupanel.add(StuBtn);
-		
-		JLabel War1label = new JLabel("\u62C5\u4FDD\u4EBA1\uFF1A");
-		War1label.setBounds(20, 23, 72, 14);
-		Stupanel.add(War1label);
-		War1label.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-		
-		War1textField = new JTextField();
-		War1textField.setBounds(90, 20, 86, 20);
-		Stupanel.add(War1textField);
-		War1textField.setColumns(10);
-		
-		JLabel LoanHouseLabel = new JLabel("\u623F\u5C4B\u4EF7\u503C\uFF1A");
-		LoanHouseLabel.setBounds(14, 76, 66, 20);
-		Stupanel.add(LoanHouseLabel);
-		LoanHouseLabel.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-		
-		LoanHousetextField = new JTextField();
-		LoanHousetextField.setBounds(90, 76, 86, 20);
-		Stupanel.add(LoanHousetextField);
-		LoanHousetextField.setColumns(10);
-		
-		JButton PerBtn = new JButton("\u786E\u8BA4\u4E2A\u4EBA\u8D37\u6B3E");
-		PerBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				/*学生贷款类型*/
 				/*首先获取学生贷款的User和Accout*/
 				Account acct = (Account)Container.getObject("acct");
 				User user =(User)Container.getObject("user");
@@ -255,9 +165,99 @@ public class LoanPanel extends JPanel {
 						e.printStackTrace();
 					}
 				}
-				
-				
 			}
+		});
+		StuBtn.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+		StuBtn.setBounds(214, 23, 113, 30);
+		Stupanel.add(StuBtn);
+		
+		JLabel War1label = new JLabel("\u62C5\u4FDD\u4EBA1\uFF1A");
+		War1label.setBounds(20, 23, 72, 14);
+		Stupanel.add(War1label);
+		War1label.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+		
+		War1textField = new JTextField();
+		War1textField.setBounds(90, 20, 86, 20);
+		Stupanel.add(War1textField);
+		War1textField.setColumns(10);
+		
+		JLabel LoanHouseLabel = new JLabel("\u623F\u5C4B\u4EF7\u503C\uFF1A");
+		LoanHouseLabel.setBounds(14, 76, 66, 20);
+		Stupanel.add(LoanHouseLabel);
+		LoanHouseLabel.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+		
+		LoanHousetextField = new JTextField();
+		LoanHousetextField.setBounds(90, 76, 86, 20);
+		Stupanel.add(LoanHousetextField);
+		LoanHousetextField.setColumns(10);
+		
+		JButton PerBtn = new JButton("\u786E\u8BA4\u4E2A\u4EBA\u8D37\u6B3E");
+		PerBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				/*学生贷款类型*/
+				/*首先获取个人贷款的User和Accout*/
+				Account acct = (Account)Container.getObject("acct");
+				User user =(User)Container.getObject("user");
+				/*首先判断是不是贷款卡*/
+				if(acct.getAccType() != 1){
+					JOptionPane.showMessageDialog(null, "不是贷款卡，无法办理贷款业务！");
+					try {
+						throw new Exception("此卡不是贷款卡");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}else if(acct.getLoanMoney() != 0){
+					JOptionPane.showMessageDialog(null, "此卡已贷款，无法继续办理贷款业务！");
+					try {
+						throw new Exception("此卡已贷款");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}else{
+					/*处理贷款类型时间和额度*/
+					int  LoanType = LoanTypeComboBox.getSelectedIndex();
+					int LoanYear = Integer.parseInt(LoanYearTextField.getText());
+					double LoanMoney = Double.parseDouble(LoanMoneyTextField.getText());
+					acct.setLoanType(LoanType);
+					if(LoanType == 0 && Integer.parseInt(LoanYearTextField.getText())>0&& Integer.parseInt(LoanYearTextField.getText())<365)
+						acct.setLoanYear(LoanYear);
+					else if(LoanType == 1 && Integer.parseInt(LoanYearTextField.getText())>=1&& Integer.parseInt(LoanYearTextField.getText())<=3)
+						acct.setLoanYear(LoanYear);
+					else if(LoanType == 2 && Integer.parseInt(LoanYearTextField.getText())>3 && Integer.parseInt(LoanYearTextField.getText())<=8)
+						acct.setLoanYear(LoanYear);
+					else{
+						JOptionPane.showMessageDialog(null, "贷款年限和类型可能有误，请仔细阅读贷款规则");
+						try {
+							throw new Exception("发生异常");
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					acct.setLoanMoney(LoanMoney);
+					acct.setLoanHouse(LoanHousetextField.getText());
+					if(Integer.parseInt(LoanMoneyTextField.getText()) > Integer.parseInt(LoanHousetextField.getText())*0.8 ||Integer.parseInt(LoanMoneyTextField.getText()) < 0){
+						JOptionPane.showMessageDialog(null, "贷款额度超出或者低于0，请检查贷款金额");
+						acct.setLoanHouse("0");
+						acct.setLoanMoney(0);
+						try {
+							throw new Exception("贷款额度过大");
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}else{
+						acct.setLoanDate(new Date());
+						/*更新数据库*/
+						try {
+							accountService.updateAccount(acct);
+							JOptionPane.showMessageDialog(null, "贷款完成！请稍后查看贷款余额!");
+						} catch (Exception e) {
+							JOptionPane.showMessageDialog(null,"无法完成贷款请求，错误["+e.getMessage()+"]");
+							e.printStackTrace();
+						}
+					}
+					
+				}
+				}
 		});
 		PerBtn.setBounds(214, 64, 113, 30);
 		Stupanel.add(PerBtn);
